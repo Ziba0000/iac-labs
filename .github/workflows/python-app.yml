@@ -136,7 +136,7 @@ jobs:
   Test:
 
     runs-on: ubuntu-latest
-    needs: sectest
+    needs: [lint, formatter, sectest]
     concurrency:
       group: Test
     defaults:
