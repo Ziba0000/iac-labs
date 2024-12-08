@@ -52,9 +52,6 @@ jobs:
       run:
         working-directory: ./example-app
         shell: bash
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
@@ -76,7 +73,7 @@ jobs:
         poetry run task lint
         
   formatter:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: build
     defaults:
       run:
@@ -100,7 +97,7 @@ jobs:
         poetry run task formatter
         
   sectest:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: build
     defaults:
       run:
@@ -124,7 +121,7 @@ jobs:
         poetry run task security
         
   Test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [lint, formatter, sectest]
     defaults:
       run:
