@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
 jobs:
+
   build:
     runs-on: ubuntu-latest
     concurrency:
@@ -115,11 +116,15 @@ jobs:
         poetry run task security
         
   Test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [lint, formatter, sectest]
     defaults:
       run:
         working-directory: ./example-app
+        shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
