@@ -136,7 +136,7 @@ jobs:
   Test:
 
     runs-on: ubuntu-latest
-    needs: build
+    needs: sectest
     concurrency:
       group: Test
     defaults:
