@@ -1,22 +1,16 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-          
-
 name: Python application
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 permissions:
   contents: read
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
     concurrency:
       group: Build
@@ -34,10 +28,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.4
-      
     - name: Install deps
       run: poetry install --no-root
     - name: Cache build venv
@@ -46,14 +38,11 @@ jobs:
       with:
         path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
         key: ${{ runner.os }}-venv
-    
+ 
 
   lint:
-
     runs-on: ubuntu-latest
     needs: build
-    concurrency:
-      group: Middle
     defaults:
       run:
         working-directory: ./example-app
@@ -71,22 +60,18 @@ jobs:
       with:
         path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
         key: ${{ runner.os }}-venv
-        
-        
+ 
 
     - name: Lint
       run: |
         poetry run task lint
-
+        
   formatter:
-
     runs-on: ubuntu-latest
     needs: build
-    concurrency:
-      group: Middle
     defaults:
       run:
-        working-directory: ./example-app
+         working-directory: ./example-app
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
@@ -106,11 +91,8 @@ jobs:
         poetry run task formatter
         
   sectest:
-
     runs-on: ubuntu-latest
     needs: build
-    concurrency:
-      group: Middle
     defaults:
       run:
         working-directory: ./example-app
@@ -128,17 +110,13 @@ jobs:
       with:
         path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
         key: ${{ runner.os }}-venv
-        
     - name: Sec test
       run: |
         poetry run task security
-
+        
   Test:
-
     runs-on: ubuntu-latest
     needs: [lint, formatter, sectest]
-    concurrency:
-      group: Test
     defaults:
       run:
         working-directory: ./example-app
@@ -159,5 +137,3 @@ jobs:
     - name: Test
       run: |
         poetry run task test
-
-
