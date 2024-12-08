@@ -127,6 +127,8 @@ jobs:
   Test:
 
     runs-on: ubuntu-latest
+    concurrency:
+      group: Test
     defaults:
       run:
         working-directory: ./example-app
