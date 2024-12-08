@@ -46,7 +46,7 @@ jobs:
  
 
   lint:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: build
     defaults:
       run:
@@ -73,7 +73,7 @@ jobs:
         poetry run task lint
         
   formatter:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: build
     defaults:
       run:
@@ -97,7 +97,7 @@ jobs:
         poetry run task formatter
         
   sectest:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: build
     defaults:
       run:
@@ -121,7 +121,7 @@ jobs:
         poetry run task security
         
   Test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: [lint, formatter, sectest]
     defaults:
       run:
