@@ -12,12 +12,16 @@ permissions:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     concurrency:
       group: Build
     defaults:
       run:
         working-directory: ./example-app
+        shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
@@ -116,15 +120,11 @@ jobs:
         poetry run task security
         
   Test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     needs: [lint, formatter, sectest]
     defaults:
       run:
         working-directory: ./example-app
-        shell: bash
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
