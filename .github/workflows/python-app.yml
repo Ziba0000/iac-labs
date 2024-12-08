@@ -136,7 +136,7 @@ jobs:
   Test:
 
     runs-on: ubuntu-latest
-    needs: Middle
+    needs: build
     concurrency:
       group: Test
     defaults:
