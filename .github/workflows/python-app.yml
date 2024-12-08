@@ -18,6 +18,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    concurrency:
+      group: Build
     defaults:
       run:
         working-directory: ./example-app
@@ -145,8 +147,5 @@ jobs:
     - name: Test
       run: |
         poetry run task test
-        
-    - name: Test with pytest
-      run: |
-        pytest
+
 
